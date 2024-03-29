@@ -17,7 +17,7 @@ from langchain_community.document_loaders.parsers import LanguageParser
 
 def load_split_file(repo_path):
     loader = GenericLoader.from_filesystem(
-        repo_path+ "/python",
+        repo_path,
         glob="**/*",
         suffixes=[".py"],
         exclude=["**/non-utf8-encoding.py"],

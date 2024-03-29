@@ -6,41 +6,18 @@ from chromadb import Documents, EmbeddingFunction, Embeddings
 import cloneGit
 import reading_files
 import pandas as pd
-# If there is no env variable set for API key, you can pass the API key
-# to the parameter `google_api_key` of the `ChatGoogleGenerativeAI` function:
-# `google_api_key="key"`.
-
-
 genai.configure(api_key=creds.GeminiAPI)
-
-
-# for m in genai.list_models():
-#   if 'generateContent' in m.supported_generation_methods:
-#     print(m.name)
-
 model = genai.GenerativeModel('gemini-pro')
-
-# response = model.generate_content("Hi")
-# print(response.text)
-
-# llm = ChatGoogleGenerativeAI(model="gemini-pro",
-#                  temperature=0.7, top_p=0.85)
-
-
-
-# for m in genai.list_models():
-#   if 'embedContent' in m.supported_generation_methods:
-#     print(m.name)
 
 class GeminiEmbeddingFunction(EmbeddingFunction):
   def __call__(self, input: Documents) -> Embeddings:
     model = 'models/embedding-001'
     title = "Custom query"
+    content = input[1]
     return genai.embed_content(model=model,
                                 content=input,
                                 task_type="retrieval_document",
                                 title=title)["embedding"]
-
 
 def create_chroma_db(documents, name):
   chroma_client = chromadb.Client()
@@ -56,7 +33,6 @@ def create_chroma_db(documents, name):
       ids=str(i)
     )
   return db
-
 def main():
     repo_url = "https://github.com/apache/spark.git"
     local_dir = "cloned_repo" 
@@ -69,9 +45,6 @@ def main():
 
     db = create_chroma_db(chunks, "Embeddings")
     pd.DataFrame(db.peek(3))
-    
-
-
     cloneGit.delete_repository(local_dir)
 
 if __name__ == "__main__":

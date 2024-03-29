@@ -42,17 +42,17 @@ def list_files_repo(repo_dir):
     return files_list
 
 def main():
-    repo_url = "https://github.com/shrimaliharshal/Real-time-Reddit-sentiment-analyzer.git" 
+    # repo_url = "https://github.com/shrimaliharshal/Real-time-Reddit-sentiment-analyzer.git" 
     local_dir = "cloned_repo" 
 
     
-    clone_repository(repo_url, local_dir)
+    # clone_repository(repo_url, local_dir)
     
-    print("\nAll files in the repository directory:")
-    all_files = list_files_repo(local_dir)
-    for file in all_files:
-        print(file)
-    print(f"Number of code files cloned: {len(all_files)}")
+    # print("\nAll files in the repository directory:")
+    # all_files = list_files_repo(local_dir)
+    # for file in all_files:
+    #     print(file)
+    # print(f"Number of code files cloned: {len(all_files)}")
 
         
     delete_repository(local_dir)
