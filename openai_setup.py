@@ -12,11 +12,14 @@ from langchain.chains import LLMChain
 
 
 openai_api_key = creds.openai_api_key
-repo_url = "https://github.com/apache/spark.git"
+repo_url = "https://github.com/apache/spark"
 local_dir = "cloned_repo" 
 cloneGit.clone_repository(repo_url, local_dir)
 print("\nAll files in the repository directory:")
+
 all_files = cloneGit.list_files_repo(local_dir)
+# for file in all_files:
+#     print(file)
 print(f"Number of code files cloned: {len(all_files)}")
 chunks = reading_files.load_split_file(local_dir)
 
@@ -31,7 +34,7 @@ memory = ConversationSummaryMemory(
     llm=llm, memory_key="chat_history", return_messages=True
 )
 qa = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory)
-question = "What is this ode repository about"
+question = "Explain the workflow and key insights of this repository"
 result = qa(question)
 
 result = qa.invoke(question)
